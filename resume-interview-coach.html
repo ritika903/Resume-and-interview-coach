@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CareerCoach – Resume & Interview Coach</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#F6F3FF;--ink:#1F1747;--muted:#6B6590;--card:#fff;--accent:#FF5C8A;--mint:#19C3A0;--sun:#FFC145;--line:#E3DDF7;--sky:#6C8CFF}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.1}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+  header{padding:20px 0;display:flex;justify-content:space-between;align-items:center}
+  .brand{display:flex;align-items:center;gap:10px;font:800 1.3rem 'Bricolage Grotesque'}
+  .logo{width:36px;height:36px;border-radius:12px;background:var(--ink);color:var(--sun);display:grid;place-items:center}
+  .pill{font-size:.85rem;font-weight:700;border:2px solid var(--ink);border-radius:999px;padding:4px 12px;background:#fff}
+
+  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;padding:24px 0 36px}
+  .hero h1{font-size:clamp(2.2rem,5.5vw,3.7rem);font-weight:800;letter-spacing:-.02em}
+  .hero h1 span{display:inline-block;background:var(--sun);padding:0 .22em;border-radius:12px;transform:rotate(-1.5deg)}
+  .hero p{margin-top:16px;color:var(--muted);font-size:1.05rem;max-width:46ch}
+  .steps{display:grid;gap:10px}
+  .step{display:flex;gap:12px;align-items:center;background:#fff;border:2px solid var(--ink);border-radius:16px;padding:12px 14px;font-weight:500;box-shadow:4px 4px 0 var(--ink)}
+  .step b{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;flex:none}
+  .step:nth-child(2) b{background:var(--accent)}.step:nth-child(3) b{background:var(--mint)}
+
+  .card{background:var(--card);border:2px solid var(--ink);border-radius:24px;padding:26px;box-shadow:6px 6px 0 var(--ink)}
+  .form{display:grid;grid-template-columns:1fr 1.4fr;gap:24px}
+  h2{font-size:1.5rem;margin-bottom:6px}
+  .sub{color:var(--muted);font-size:.95rem;margin-bottom:12px}
+  label{display:block;font-weight:700;font-size:.9rem;margin:14px 0 6px}
+  input,select,textarea{width:100%;border:2px solid var(--line);border-radius:14px;padding:12px 14px;font:inherit;color:var(--ink);background:#FBFAFF}
+  textarea{min-height:260px;resize:vertical}
+  input:focus,select:focus,textarea:focus{border-color:var(--ink)}
+  .btn{background:var(--accent);color:#fff;border:2px solid var(--ink);padding:12px 22px;border-radius:14px;font:700 1rem 'DM Sans';cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+  .btn.ghost{background:#fff;color:var(--ink)}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .file{font-size:.88rem;color:var(--muted);margin-top:6px}
+  .err{color:#C0264F;font-weight:700;margin-top:10px;min-height:1.4em}
+
+  #report{display:none;margin-top:44px}
+  .top{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+  .ring{--p:0;width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--mint) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;transition:background .2s}
+  .ring i{font-style:normal;width:100px;height:100px;border-radius:50%;background:#fff;display:grid;place-items:center;font:800 2rem 'Bricolage Grotesque'}
+  .verdict{font:800 1.7rem 'Bricolage Grotesque'}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+  .block{margin-top:22px}
+  .block h3{font-size:1.2rem;margin-bottom:10px}
+
+  .checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+  .check{display:flex;gap:8px;align-items:center;padding:8px 12px;border-radius:12px;font-weight:500;font-size:.92rem;background:var(--bg)}
+  .check.ok{background:#E4FAF4}.check.no{background:#FFE8EF}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border:1.5px solid var(--ink);border-radius:999px;padding:3px 11px;font-size:.85rem;font-weight:500;background:#fff}
+  .chip.have{background:var(--mint);color:#06382E}
+  .chip.miss{background:#fff;border-style:dashed}
+  ul.list{list-style:none;display:grid;gap:8px}
+  ul.list li{background:var(--bg);border-left:5px solid var(--sun);border-radius:10px;padding:10px 12px;font-size:.94rem}
+  ul.list.good li{border-color:var(--mint)}ul.list.bad li{border-color:var(--accent)}
+
+  .road{display:grid;gap:12px;position:relative}
+  .rstep{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+  .rstep b{width:44px;height:44px;border-radius:14px;background:var(--ink);color:#fff;display:grid;place-items:center;font:800 1rem 'Bricolage Grotesque'}
+  .rstep div{background:var(--bg);border-radius:14px;padding:10px 14px}
+  .rstep strong{display:block}
+  .rstep small{color:var(--muted)}
+
+  details{background:var(--bg);border-radius:14px;padding:12px 14px;margin-top:8px}
+  summary{cursor:pointer;font-weight:700}
+  details p{margin-top:8px;color:var(--muted);font-size:.92rem}
+  details textarea{min-height:90px;margin-top:8px}
+
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:36px 0}
+  @media(max-width:780px){.hero,.form,.grid2,.top{grid-template-columns:1fr}.top{justify-items:center;text-align:center}.card{padding:18px}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  @media print{header,.hero,#formCard,.actions,footer,details textarea{display:none!important}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">✦</div>CareerCoach</div>
+    <span class="pill">AI Resume & Interview Coach</span>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Your resume shows where you stand. We show <span>what next.</span></h1>
+      <p>Paste your resume, pick a target role, and get a score, your skill gaps, a step-by-step plan, and interview questions made from your own resume.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><b>1</b>Paste your resume and choose a role</div>
+      <div class="step"><b>2</b>Get your score, gaps and strengths</div>
+      <div class="step"><b>3</b>Follow the plan and practise interview questions</div>
+    </div>
+  </section>
+
+  <!-- INPUT -->
+  <section class="card" id="formCard">
+    <div class="form">
+      <div>
+        <h2>About you</h2>
+        <p class="sub">Tell us where you want to go.</p>
+        <label for="name">Your name</label>
+        <input id="name" placeholder="e.g. Ritika">
+        <label for="role">Target role</label>
+        <select id="role">
+          <option value="dev">Software Developer</option>
+          <option value="data">Data Analyst</option>
+          <option value="mkt">Marketing Executive</option>
+          <option value="hr">HR Associate</option>
+        </select>
+        <label for="level">Experience level</label>
+        <select id="level">
+          <option value="fresher">Fresher / Student</option>
+          <option value="mid">1–3 years</option>
+          <option value="senior">3+ years</option>
+        </select>
+      </div>
+      <div>
+        <h2>Your resume</h2>
+        <p class="sub">Paste the text, or upload a .txt file.</p>
+        <textarea id="resume" placeholder="Paste your resume text here…"></textarea>
+        <div class="file"><input type="file" id="file" accept=".txt"></div>
+        <div class="err" id="err" role="alert"></div>
+        <div class="actions">
+          <button class="btn" id="go">Analyse my resume</button>
+          <button class="btn ghost" id="sample">Try a sample resume</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORT -->
+  <section id="report" aria-live="polite">
+    <div class="card">
+      <div class="top">
+        <div class="ring" id="ring"><i id="scoreNum">0</i></div>
+        <div>
+          <p class="sub" id="hello"></p>
+          <div class="verdict" id="verdict"></div>
+          <p id="summary" style="color:var(--muted);margin-top:6px"></p>
+        </div>
+      </div>
+
+      <div class="block"><h3>Resume checklist</h3><div class="checks" id="checks"></div></div>
+
+      <div class="grid2">
+        <div><h3 style="margin-bottom:10px">What's working</h3><ul class="list good" id="good"></ul></div>
+        <div><h3 style="margin-bottom:10px">What to fix</h3><ul class="list bad" id="bad"></ul></div>
+      </div>
+
+      <div class="block"><h3>Skills for this role</h3>
+        <p class="sub">Green = found in your resume. Dashed = missing, so learn or add these.</p>
+        <div class="chips" id="skills"></div></div>
+    </div>
+
+    <div class="card" style="margin-top:26px">
+      <h2>Your next steps</h2>git 
+      <p class="sub">A plan based on your resume, in the order we suggest.</p>
+      <div class="road" id="road"></div>
+    </div>
+
+    <div class="card" style="margin-top:26px">
+      <h2>Interview questions for you</h2>
+      <p class="sub">Made from your own resume. Open a question, write your answer, and check the tip.</p>
+      <div id="qs"></div>
+      <div class="actions">
+        <button class="btn ghost" id="print">Save report as PDF</button>
+        <button class="btn ghost" id="again">Check another resume</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Built for a prompt hackathon · Analysis runs in your browser, nothing is uploaded</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+/* ---------- Role data ---------- */
+const ROLES = {
+  dev:{name:'Software Developer',
+    skills:['python','java','javascript','html','css','react','node','sql','git','github','api','data structures','algorithms','docker','c++'],
+    steps:[['Build 2–3 real projects','Put them on GitHub with a clear README and screenshots.'],['Practise data structures daily','Solve 2 problems a day on LeetCode or similar.'],['Learn one framework deeply','Pick React or Node and build a full-stack app.'],['Prepare system and project talk','Be ready to explain every line of your projects.']]},
+  data:{name:'Data Analyst',
+    skills:['sql','excel','python','pandas','power bi','tableau','statistics','visualization','dashboard','numpy','data cleaning','machine learning','reporting'],
+    steps:[['Master SQL joins and window functions','Most analyst interviews start with SQL.'],['Build a dashboard project','Use Power BI or Tableau on a real public dataset.'],['Learn Python with pandas','Clean and analyse a messy dataset end to end.'],['Practise storytelling with data','Explain insights in 3 simple sentences.']]},
+  mkt:{name:'Marketing Executive',
+    skills:['seo','social media','content','analytics','google ads','email marketing','campaign','branding','canva','copywriting','crm','market research'],
+    steps:[['Run a small real campaign','Even a college page or a personal blog counts. Track the results.'],['Get a free certification','Google Analytics or HubSpot are quick wins.'],['Build a portfolio','Collect posts, campaigns and results in one link.'],['Learn to read the numbers','Know CTR, conversion and ROI.']]},
+  hr:{name:'HR Associate',
+    skills:['recruitment','onboarding','payroll','communication','employee engagement','screening','interviewing','hris','excel','policy','training','labour law'],
+    steps:[['Learn the hiring funnel','Sourcing, screening, interviews, offers.'],['Get hands-on with an HR tool','Try a free ATS or HRIS demo.'],['Practise people scenarios','Conflict, feedback, and confidentiality questions.'],['Add one HR certification','Short courses on recruitment or labour law help.']]}
+};
+
+const SAMPLE = `Ritika Sharma
+ritika.sharma@email.com | +91 98765 43210 | linkedin.com/in/ritika | github.com/ritika
+
+Summary
+Final year B.Tech student interested in web development and problem solving.
+
+Education
+B.Tech in Computer Science, Mumbai University, 2022-2026, CGPA 8.4
+
+Skills
+Python, Java, HTML, CSS, JavaScript, SQL, Git
+
+Projects
+Student Portal - Built a web app using HTML, CSS and JavaScript for 200+ students to view results.
+Weather App - Created a weather app using an API with city search.
+
+Internship
+Web Developer Intern, ABC Tech (2 months) - Improved page load time by 30% and fixed 15 bugs.
+
+Certifications
+Python for Everybody - Coursera`;
+
+/* ---------- Helpers ---------- */
+const has = (t, re) => re.test(t);
+const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* ---------- Analyse ---------- */
+function analyse(text, roleKey, level){
+  const t = text.toLowerCase();
+  const role = ROLES[roleKey];
+  const words = text.trim().split(/\s+/).length;
+  const numbers = (text.match(/\d+(\.\d+)?\s?(%|\+|k\b|x\b)?/g) || []).length;
+  const verbs = (t.match(/\b(led|built|created|improved|managed|designed|increased|reduced|developed|launched|analy[sz]ed|organi[sz]ed|implemented|automated|fixed)\b/g) || []).length;
+
+  const checks = [
+    ['Email', has(t,/[\w.+-]+@[\w-]+\.[\w.]+/)],
+    ['Phone', has(t,/(\+?\d[\d\s-]{8,})/)],
+    ['LinkedIn / GitHub', has(t,/linkedin|github/)],
+    ['Summary', has(t,/summary|objective|profile/)],
+    ['Education', has(t,/education|b\.?tech|b\.?e\b|bca|mba|degree|university|college/)],
+    ['Skills section', has(t,/skills/)],
+    ['Projects', has(t,/project/)],
+    ['Experience / Internship', has(t,/experience|intern|worked|employment/)],
+    ['Certifications', has(t,/certif|course|coursera|udemy/)]
+  ];
+  const found = role.skills.filter(s => t.includes(s));
+  const missing = role.skills.filter(s => !t.includes(s));
+
+  let score = 0;
+  score += checks.filter(c=>c[1]).length / checks.length * 35;
+  score += Math.min(found.length / (role.skills.length*0.6), 1) * 30;
+  score += Math.min(numbers/5, 1) * 15;
+  score += Math.min(verbs/5, 1) * 10;
+  score += words>=150 && words<=700 ? 10 : words>=80 ? 5 : 0;
+  score = Math.round(Math.min(score, 98));
+
+  const good=[], bad=[];
+  found.length>=Math.ceil(role.skills.length*0.4) ? good.push(`You already show ${found.length} skills that ${role.name}s need.`) : bad.push(`Only ${found.length} of ${role.skills.length} key skills for ${role.name} were found. Add the ones you really know.`);
+  numbers>=4 ? good.push('You use numbers to show impact. Recruiters love this.') : bad.push('Add numbers to your work, for example “reduced time by 30%” or “used by 200 students”.');
+  verbs>=4 ? good.push('Your bullets start with strong action verbs.') : bad.push('Start bullet points with action verbs like Built, Led, Improved, Designed.');
+  checks[6][1] ? good.push('You have a projects section, which is key for freshers.') : bad.push('Add a projects section with 2–3 projects and what you achieved.');
+  checks[2][1] ? good.push('Your LinkedIn or GitHub link is included.') : bad.push('Add your LinkedIn and GitHub links near the top.');
+  checks[3][1] ? 0 : bad.push('Add a 2-line summary that names your target role and top skills.');
+  checks[8][1] ? 0 : bad.push('Add 1–2 certifications to prove your learning.');
+  words<120 ? bad.push('Your resume is very short. Add more detail about projects and skills.') : words>750 && bad.push('Your resume is long. Trim it to one page.');
+  if(!good.length) good.push('You have started. The tips on the right will take you far.');
+
+  /* next steps */
+  const steps = [];
+  if(!checks[0][1] || !checks[1][1]) steps.push(['Fix your contact details','Add a professional email and phone number at the top.']);
+  checks.filter((c,i)=>!c[1] && [3,6,7].includes(i)).forEach(c => steps.push([`Add a ${c[0].toLowerCase()} section`,'Recruiters scan for this first.']));
+  if(missing.length) steps.push([`Learn or add: ${missing.slice(0,3).join(', ')}`,`These are common in ${role.name} job posts. Do a small project with them.`]);
+  if(numbers<4) steps.push(['Rewrite bullets with numbers','Use the format: action + what you did + result.']);
+  steps.push(...role.steps.slice(0, Math.max(2, 5-steps.length)));
+  if(level==='fresher') steps.push(['Apply for internships and campus drives','Apply to 5 roles every week and track them in a sheet.']);
+  steps.push(['Practise the interview questions below','Record your answers and keep each under 90 seconds.']);
+
+  /* questions from resume */
+  const qs = [['Tell me about yourself.','Use 3 parts: who you are, what you have done, why this role. Keep it under 60 seconds.']];
+  if(found.length) qs.push([`You listed ${cap(found[0])}. Where have you used it in real work?`,'Give one project, what you did, and the result. Avoid just listing features.']);
+  if(found.length>1) qs.push([`How would you explain ${cap(found[1])} to a beginner?`,'Use a simple example. This shows real understanding.']);
+  if(checks[6][1]) qs.push(['Walk me through your best project. What was hardest?','Use STAR: Situation, Task, Action, Result. Mention one problem you solved.']);
+  if(checks[7][1]) qs.push(['Tell me about your internship or work experience.','Mention your role, one achievement with a number, and what you learned.']);
+  if(missing.length) qs.push([`We use ${missing[0]}. You haven't mentioned it. How would you learn it?`,'Be honest, then show a clear plan and a past example of learning fast.']);
+  qs.push(['What is your biggest weakness?','Pick a real but fixable weakness and share what you are doing to improve it.'],['Why should we hire you?','Match 2 of your strengths directly to the job needs.']);
+
+  return {score,checks,found,missing,good,bad,steps,qs,role};
+}
+
+/* ---------- Render ---------- */
+function render(r, name){
+  $('hello').textContent = name ? `Hi ${name}, here is your report for ${r.role.name}` : `Your report for ${r.role.name}`;
+  const v = r.score>=80 ? ['Interview ready 🚀','Your resume is strong. Polish the details and start applying.']
+          : r.score>=60 ? ['Almost there 👍','A few fixes will make your resume stand out.']
+          : r.score>=40 ? ['Good start, needs work 🛠️','Follow the steps below to move up quickly.']
+          : ['Needs a rebuild 🌱','Do not worry. Start with the first three steps below.'];
+  $('verdict').textContent = v[0]; $('summary').textContent = v[1];
+  $('scoreNum').textContent = r.score;
+  $('ring').style.setProperty('--p', r.score);
+  $('ring').style.background = `conic-gradient(${r.score>=60?'var(--mint)':r.score>=40?'var(--sun)':'var(--accent)'} ${r.score}%, var(--line) 0)`;
+
+  $('checks').innerHTML = r.checks.map(c=>`<div class="check ${c[1]?'ok':'no'}">${c[1]?'✅':'❌'} ${c[0]}</div>`).join('');
+  $('good').innerHTML = r.good.map(x=>`<li>${x}</li>`).join('');
+  $('bad').innerHTML = r.bad.length ? r.bad.map(x=>`<li>${x}</li>`).join('') : '<li>Nothing major. Great work!</li>';
+  $('skills').innerHTML = r.found.map(s=>`<span class="chip have">${s}</span>`).join('') + r.missing.map(s=>`<span class="chip miss">${s}</span>`).join('');
+  $('road').innerHTML = r.steps.map((s,i)=>`<div class="rstep"><b>${i+1}</b><div><strong>${esc(s[0])}</strong><small>${esc(s[1])}</small></div></div>`).join('');
+  $('qs').innerHTML = r.qs.map(q=>`<details><summary>${esc(q[0])}</summary><p><b>Tip:</b> ${esc(q[1])}</p><textarea placeholder="Write your answer here to practise…"></textarea></details>`).join('');
+
+  $('report').style.display = 'block';
+  $('report').scrollIntoView({behavior:'smooth'});
+}
+
+/* ---------- Events ---------- */
+$('go').addEventListener('click', () => {
+  const text = $('resume').value.trim();
+  if(text.split(/\s+/).length < 25){ $('err').textContent = 'Please paste your full resume (at least a few lines).'; return; }
+  $('err').textContent = '';
+  render(analyse(text, $('role').value, $('level').value), $('name').value.trim());
+});
+$('sample').addEventListener('click', () => { $('resume').value = SAMPLE; $('name').value = $('name').value || 'Ritika'; $('err').textContent=''; });
+$('file').addEventListener('change', e => {
+  const f = e.target.files[0]; if(!f) return;
+  const rd = new FileReader(); rd.onload = () => { $('resume').value = rd.result; }; rd.readAsText(f);
+});
+$('print').addEventListener('click', () => window.print());
+$('again').addEventListener('click', () => { $('report').style.display='none'; $('resume').value=''; window.scrollTo({top:0,behavior:'smooth'}); });
+</script>
+</body>
+</html>
